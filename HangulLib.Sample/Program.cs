@@ -18,8 +18,11 @@ namespace HangulLib.Sample
                 foreach (ComplexChar cc in Hangul.Disassemble(data))
                 {
                     // ToString2 - 디버깅용
-                    Console.WriteLine(cc.ToString2());
+                    Console.WriteLine("Disassemble: " + cc.ToString2());
+                    Console.WriteLine("Assemble: " + Hangul.Assemble(cc));
                 }
+
+                Console.WriteLine();
             }
         }
 

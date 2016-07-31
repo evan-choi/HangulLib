@@ -40,7 +40,7 @@ namespace HangulLib
 
         private static ComplexChar[] JONGSUNG = new ComplexChar[]
         {
-            ' ', 'ㄱ', 'ㄲ',
+            default(char), 'ㄱ', 'ㄲ',
             new char[] { 'ㄱ', 'ㅅ', 'ㄳ' },
             'ㄴ',
             new char[] { 'ㄴ', 'ㅈ', 'ㄵ' },
@@ -124,16 +124,20 @@ namespace HangulLib
 
         public static char Assemble(ComplexChar cc)
         {
-            if (cc.Chars.Length == 2)
+            if (cc.Chars.Length == 3)
             {
-                return Build(cc[0], cc[1], cc.Completion);
+                return RawBuild(cc[0], cc[1], cc[2]);
+            }
+            else if (cc.Chars.Length == 2)
+            {
+                return RawBuild(cc[0], cc[1], cc.Completion);
             }
             else if (cc.Chars.Length == 1)
             {
-                return Build(cc[0], 0, cc.Completion);
+                return RawBuild(cc[0], cc.Completion, 0);
             }
             else
-                throw new ArgumentException();
+                return cc;
         }
 
         #region 내부 함수
@@ -142,6 +146,21 @@ namespace HangulLib
             return JUNGSUNG
                 .Concat(JONGSUNG)
                 .SingleOrDefault(cc => cc.Completion == c);
+        }
+
+        private static char RawBuild(int cho, int jung, int jong)
+        {
+            cho = Array.IndexOf(CHOSUNG, (char)cho);
+            jung = JUNGSUNG.ToList().FindIndex(cc => cc.Equals((char)jung));
+            jong = JONGSUNG.ToList().FindIndex(cc => cc.Equals((char)jong));
+
+            if (jong == -1)
+                jong = 0;
+
+            if (cho == -1 || jung == -1)
+                throw new ArgumentException();
+
+            return Build(cho, jung, jong);
         }
 
         private static char Build(int cho, int jung, int jong)
