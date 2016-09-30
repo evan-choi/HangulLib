@@ -77,10 +77,15 @@ namespace HangulLib
             return IsValidData(dataset);
         }
 
-        public static IEnumerable<ComplexChar> Disassemble(string data)
+        public static IEnumerable<ComplexChar> Disassemble(string data, bool onlyHangul = true)
         {
             foreach (var c in data)
-                yield return Disassemble(c);
+            {
+                var dataset = GetDataset(c);
+
+                if ((onlyHangul && IsValidData(dataset)) || !onlyHangul)
+                    yield return Disassemble(c);
+            }
         }
 
         public static ComplexChar Disassemble(char c)
@@ -138,6 +143,33 @@ namespace HangulLib
             }
             else
                 return cc;
+        }
+
+        public static bool IsChosung(char c)
+        {
+            var dataset = GetDataset(c);
+
+            return (dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
+                   !(dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
+                   !(dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
+        }
+
+        public static bool IsJungsung(char c)
+        {
+            var dataset = GetDataset(c);
+
+            return !(dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
+                   (dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
+                   !(dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
+        }
+
+        public static bool IsJongsung(char c)
+        {
+            var dataset = GetDataset(c);
+
+            return !(dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
+                   !(dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
+                   (dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
         }
 
         #region 내부 함수

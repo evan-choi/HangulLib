@@ -10,6 +10,8 @@ namespace HangulLib.Sample
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(Contains("김소은", "김ㅅㅇ"));
+
             while (true)
             {
                 Console.Write("Data: ");
@@ -24,6 +26,21 @@ namespace HangulLib.Sample
 
                 Console.WriteLine();
             }
+        }
+
+        static bool Contains(string a, string b)
+        {
+            var d_a = Hangul.Disassemble(a);
+            var d_b = Hangul.Disassemble(b);
+
+            string[] uChars = d_a
+                .Select(cc => cc.Chars[0].ToString())
+                .Take(b.Length)
+                .ToArray();
+
+            
+
+            return false;
         }
 
         static void Benchmark(string data)
