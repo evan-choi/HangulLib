@@ -10,8 +10,10 @@ namespace HangulLib.Sample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Contains("김소은", "김ㅅㅇ"));
-
+            Console.WriteLine(Contains("규환", "규호"));
+            Console.WriteLine(Contains("규환", "규화"));
+            Console.WriteLine(Contains("규환", "규환"));
+            Console.WriteLine(Contains("규환", "규환!"));
             while (true)
             {
                 Console.Write("Data: ");
@@ -30,15 +32,67 @@ namespace HangulLib.Sample
 
         static bool Contains(string a, string b)
         {
-            var d_a = Hangul.Disassemble(a);
-            var d_b = Hangul.Disassemble(b);
+            if (a.Length < b.Length)
+                return false;
 
-            string[] uChars = d_a
-                .Select(cc => cc.Chars[0].ToString())
-                .Take(b.Length)
-                .ToArray();
+            var c_a = Hangul.Disassemble(a, false).ToArray();
+            var c_b = Hangul.Disassemble(b, false).ToArray();
 
-            
+            char[] cho_a = c_a.Select(cc => ((cc.Chars.Count() > 0 ? (char)cc[0] : cc.Completion))).ToArray();
+            char[] cho_b = c_b.Select(cc => ((cc.Chars.Count() > 0 ? (char)cc[0] : cc.Completion))).ToArray();
+
+            char[] jung_a = c_a.Select(cc => ((cc.Chars.Count() == 2 ? (char)cc[1] : cc.Completion))).ToArray();
+            char[] jung_b = c_b.Select(cc => ((cc.Chars.Count() == 2 ? (char)cc[1] : cc.Completion))).ToArray();
+
+            int index = -1;
+
+            while ((index = Array.IndexOf(cho_a, cho_b[0], index + 1)) != -1)
+            {
+                bool result = true;
+
+                for (int i = 0; i < b.Length; i++)
+                {
+                    int a_i = index + i;
+
+                    if (a_i < a.Length)
+                    {
+                        char t_a = a[a_i];
+                        char t_b = b[i];
+
+                        if (Hangul.IsChosung(b[i]))
+                        {
+                            t_a = cho_a[a_i];
+                        }
+
+                        if (Hangul.IsJungsung(jung_b[i]))
+                        {
+                            var aChars = c_a[a_i].Chars.Take(2).ToArray();
+                            var bChars = c_b[i].Chars.Take(2).ToArray();
+
+                            if (bChars.Length > 1 && bChars[1].Chars.Length == 0 &&
+                                aChars.Length > 1 && aChars[1].Chars.Length > 0)
+                                aChars[1] = aChars[1][0];
+
+                            t_a = Hangul.Assemble(new ComplexChar[] { aChars })[0];
+                            t_b = Hangul.Assemble(new ComplexChar[] { bChars })[0];
+                        }
+
+                        if (t_a != t_b)
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+
+                if (result)
+                    return true;
+            }
 
             return false;
         }

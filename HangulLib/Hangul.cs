@@ -147,29 +147,17 @@ namespace HangulLib
 
         public static bool IsChosung(char c)
         {
-            var dataset = GetDataset(c);
-
-            return (dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
-                   !(dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
-                   !(dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
+            return CHOSUNG.Contains(c);
         }
 
         public static bool IsJungsung(char c)
         {
-            var dataset = GetDataset(c);
-
-            return !(dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
-                   (dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
-                   !(dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
+            return JUNGSUNG.Where(j => j.Completion == c).Count() > 0;
         }
 
         public static bool IsJongsung(char c)
         {
-            var dataset = GetDataset(c);
-
-            return !(dataset.Chosung >= 0 && dataset.Chosung < CHOSUNG.Length) &&
-                   !(dataset.Jungsung >= 0 && dataset.Jungsung < JUNGSUNG.Length) &&
-                   (dataset.Jongsung >= 0 && dataset.Jongsung < JONGSUNG.Length);
+            return JONGSUNG.Contains(c);
         }
 
         #region 내부 함수
