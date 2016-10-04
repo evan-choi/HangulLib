@@ -152,13 +152,71 @@ namespace HangulLib
 
         public static bool IsJungsung(char c)
         {
-            return JUNGSUNG.Where(j => j.Completion == c).Count() > 0;
+            return JUNGSUNG.Count(j => j.Completion == c) > 0;
         }
 
         public static bool IsJongsung(char c)
         {
             return JONGSUNG.Contains(c);
         }
+
+		public static bool Contains(string source, string value)
+		{
+			if (source.Length < value.Length)
+				return false;
+
+			var sourceAssm = Hangul.Disassemble(source, false).ToArray();
+			var valueAssm = Hangul.Disassemble(value, false).ToArray();
+
+			char[] sourceCho = sourceAssm.Select(cc => ((cc.Chars.Length > 0 ? (char)cc[0] : cc.Completion))).ToArray();
+			char[] valueCho = valueAssm.Select(cc => ((cc.Chars.Length > 0 ? (char)cc[0] : cc.Completion))).ToArray();
+
+			char[] sourceJung = sourceAssm.Select(cc => ((cc.Chars.Length == 2 ? (char)cc[1] : cc.Completion))).ToArray();
+			char[] valueJung = valueAssm.Select(cc => ((cc.Chars.Length == 2 ? (char)cc[1] : cc.Completion))).ToArray();
+
+			int index = -1;
+
+			while ((index = Array.IndexOf(sourceCho, valueCho[0], index + 1)) != -1)
+			{
+				for (int i = 0; i < value.Length; i++)
+				{
+					bool isLast = (i == value.Length - 1);
+					int sourceIndex = index + i;
+
+					if (sourceIndex >= source.Length)
+						break;
+
+					char sourceChar = source[sourceIndex];
+					char valueChar = value[i];
+
+					if (Hangul.IsChosung(value[i]))
+						sourceChar = sourceCho[sourceIndex];
+
+					if (Hangul.IsJungsung(valueJung[i]) && isLast)
+					{
+						var complexSource = sourceAssm[sourceIndex].Chars.Take(2).ToArray();
+						var complexValue = valueAssm[i].Chars.Take(2).ToArray();
+
+						if (complexValue.Length > 1 && complexValue[1].Chars.Length == 0 &&
+							complexSource.Length > 1 && complexSource[1].Chars.Length > 0)
+						{
+							complexSource[1] = complexSource[1][0];
+						}
+
+						sourceChar = Hangul.Assemble(new ComplexChar[] { complexSource })[0];
+						valueChar = Hangul.Assemble(new ComplexChar[] { complexValue })[0];
+					}
+
+					if (sourceChar != valueChar)
+						break;
+
+					if (isLast)
+						return true;
+				}
+			}
+
+			return false;
+		}
 
         #region 내부 함수
         private static ComplexChar CompletionFromChar(char c)
