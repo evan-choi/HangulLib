@@ -117,7 +117,7 @@ namespace HangulLib
             return result.ToArray();
         }
 
-        public static string Assemble(ComplexChar[] chars)
+        public static string Assemble(params ComplexChar[] chars)
         {
             var result = new StringBuilder();
 
