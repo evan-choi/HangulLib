@@ -1,8 +1,0 @@
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug\HangulLib.dll
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug\HangulLib.pdb
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-C:\Users\devel\AppData\Local\Temporary Projects\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
