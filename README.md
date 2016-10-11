@@ -53,12 +53,12 @@ Completion: 립
 // * 자모음을 합쳐 한글로 만듭니다.
 Hangul.Assemble(<자모음 배열>);
 
+// ex
 ComplexChar c1 = new char[] { 'ㅎ', 'ㅏ', 'ㄴ' };
 ComplexChar c2 = new char[] { 'ㄱ', 'ㅡ', 'ㄹ' };
 ComplexChar c3 = new char[] { 'ㄹ', 'ㅣ', 'ㅂ' };
 ComplexChar c4 = '!';
 
-// ex
 Console.WriteLine(Hangul.Assemble(c1, c2, c3, c4));
 Console.WriteLine(Hangul.Assemble(new char[] { 'ㅉ', 'ㅑ', 'ㅇ' }));
 
