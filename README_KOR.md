@@ -1,5 +1,5 @@
 # README #
-
+Lang: KOREAN
 
 ### 피드백 ###
 develope_e@naver.com
