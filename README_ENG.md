@@ -12,8 +12,7 @@ This module support disassembling, assembling and detail search of hangul
 ### Example ###
 
 **Hangul Disassembling**
-```
-#!c#
+```cs
 // * Disassemble the hangul
 Hangul.Disassemble(<string>, <is only hangul>);
 
@@ -48,8 +47,7 @@ Completion: 립
 ```
 
 **Hangul Assembling**
-```
-#!c#
+```cs
 // * Compile the consonant and vowel
 Hangul.Assemble(<Con and vowel array>);
 
@@ -68,8 +66,7 @@ Console.WriteLine(Hangul.Assemble(new char[] { 'ㅉ', 'ㅑ', 'ㅇ' }));
 ```
 
 **Hangul Detail Searching**
-```
-#!c#
+```cs
 // * Search for incomplete
 Hangul.Contains(<source>, <value>);
 
