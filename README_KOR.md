@@ -12,8 +12,7 @@ develope_e@naver.com
 ### 기본 예제 ###
 
 **한글 분리**
-```
-#!c#
+```cs
 // * 한글을 분리합니다.
 Hangul.Disassemble(<문자열>, <한글 플래그>);
 
@@ -48,8 +47,7 @@ Completion: 립
 ```
 
 **한글 합성**
-```
-#!c#
+```cs
 // * 자모음을 합쳐 한글로 만듭니다.
 Hangul.Assemble(<자모음 배열>);
 
@@ -68,8 +66,7 @@ Console.WriteLine(Hangul.Assemble(new char[] { 'ㅉ', 'ㅑ', 'ㅇ' }));
 ```
 
 **한글 초성검색**
-```
-#!c#
+```cs
 // * 미완성 문자 및 초성을 검색합니다.
 Hangul.Contains(<source>, <value>);
 
